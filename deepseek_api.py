@@ -1,51 +1,64 @@
-from transformers import AutoTokenizer, AutoModelForCausalLM
-import torch
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 
-# === ENABLE CORS ===
+# CORS setup
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Change this to ["http://localhost:5000"] for stricter settings
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# === MODEL SELECTION ===
+# Gemini API Key and Endpoint
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GEMINI_ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
 
-# Recommended: Lightweight + public
-MODEL_NAME = "microsoft/DialoGPT-medium"
-
-# Backup options (uncomment any of these if the above fails):
-# MODEL_NAME = "EleutherAI/gpt-neo-1.3B"  # Good general-purpose
-# MODEL_NAME = "tiiuae/falcon-7b-instruct"  # High-quality responses, larger
-# MODEL_NAME = "mistralai/Mistral-7B-Instruct-v0.1"  # Instruction-tuned, big
-# MODEL_NAME = "mistralai/Mistral-7B-Instruct-v0.2"  # Requires access token
-
-
-# === LOAD MODEL ===
-print("[INFO] Loading tokenizer and model...")
-tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
-model = AutoModelForCausalLM.from_pretrained(MODEL_NAME, torch_dtype=torch.float32)
-print("[INFO] Model loaded successfully and ready to generate responses.")
-print("[INFO] You can now chat with the bot via http://localhost:5000")
-
-
+# Request schema
 class Prompt(BaseModel):
     prompt: str
 
-@app.post("/generate")
-async def generate_text(data: Prompt):
-    inputs = tokenizer(data.prompt, return_tensors="pt")
-    outputs = model.generate(**inputs, max_new_tokens=100, do_sample=True)
-    response = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    return {"response": response}
-
-# === ALIAS ROUTE for Frontend ===
 @app.post("/chat")
-async def chat_proxy(data: Prompt):
-    return await generate_text(data)
+async def generate_empathy_response(data: Prompt):
+    user_prompt = data.prompt.strip()
+    print(f"[PROMPT] {user_prompt}")
+
+    payload = {
+        "contents": [
+            {
+                "role": "user",
+                "parts": [
+                    {
+                        "text": (
+                            "You are Serene, an AI mental health companion trained in emotional support. "
+                            "Analyze the user's message deeply and respond with warmth, encouragement, and compassion. "
+                            "Avoid being overly formal. Keep it human and understanding.\n\n"
+                            f"User message: \"{user_prompt}\"\n"
+                            "Your empathetic response:"
+                        )
+                    }
+                ]
+            }
+        ]
+    }
+
+    try:
+        headers = {"Content-Type": "application/json"}
+        response = requests.post(GEMINI_ENDPOINT, json=payload, headers=headers)
+        response.raise_for_status()
+
+        response_text = response.json()['candidates'][0]['content']['parts'][0]['text']
+        print(f"[RESPONSE] {response_text}")
+        return {"response": response_text.strip()}
+
+    except Exception as e:
+        print("[ERROR]", e)
+        return {"response": "I'm here for you, even if I can't find the right words right now. You're not alone."}
