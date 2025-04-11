@@ -1,5 +1,3 @@
-Here’s the complete content for your `README.md` file:
-
 ```markdown
 # Serene – AI Journal Chatbot
 
@@ -141,5 +139,3 @@ This project is licensed under the **MIT License**.
 
 > Made during **Advaya Hackathon 2024** – Empowering Minds Through Technology
 ```
-
-Let me know if you'd like this written directly to a file or added to the GitHub repo automatically (if you're working locally or want script automation).
