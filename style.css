@@ -1,98 +1,161 @@
-body {
+:root {
+    --bg: #f0f2f5;
+    --chat-bg: #ffffff;
+    --bot-bg: #f1f1f1;
+    --user-bg: #4a90e2;
+    --text: #333;
+    --input-bg: #fff;
+    --input-border: #ccc;
+    --btn-bg: #4a90e2;
+    --btn-hover: #3a7bc8;
+    --scroll-thumb: #ccc;
+  }
+  
+  [data-theme="dark"] {
+    --bg: #121212;
+    --chat-bg: #1e1e1e;
+    --bot-bg: #2c2c2c;
+    --user-bg: #2962ff;
+    --text: #f5f5f5;
+    --input-bg: #2a2a2a;
+    --input-border: #444;
+    --btn-bg: #2962ff;
+    --btn-hover: #0039cb;
+    --scroll-thumb: #555;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f5f5;
+    background-color: var(--bg);
     margin: 0;
     padding: 20px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     height: 100vh;
-}
-
-.chat-container {
+    color: var(--text);
+  }
+  
+  /* Theme toggle button */
+  #theme-toggle {
+    margin-bottom: 10px;
+    padding: 8px 15px;
+    font-size: 14px;
+    border: none;
+    background-color: var(--btn-bg);
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  
+  #theme-toggle:hover {
+    background-color: var(--btn-hover);
+  }
+  
+  .chat-container {
     width: 100%;
     max-width: 800px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: var(--chat-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     display: flex;
     flex-direction: column;
     height: 80vh;
-}
-
-.chat-output {
+  }
+  
+  .chat-output {
     flex: 1;
     padding: 20px;
     overflow-y: auto;
-    background-color: #f9f9f9;
-}
-
-.message {
-    margin-bottom: 15px;
-    padding: 12px 15px;
-    border-radius: 8px;
-    max-width: 80%;
+    background-color: var(--bg);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scrollbar-width: thin;
+  }
+  
+  .chat-output::-webkit-scrollbar {
+    width: 6px;
+  }
+  .chat-output::-webkit-scrollbar-thumb {
+    background-color: var(--scroll-thumb);
+    border-radius: 10px;
+  }
+  
+  .message {
+    display: flex;
+    flex-direction: column;
+    max-width: 70%;
+    word-wrap: break-word;
+  }
+  
+  .user-message {
+    align-self: flex-end;
+  }
+  
+  .bot-message {
+    align-self: flex-start;
+  }
+  
+  .bubble {
+    padding: 12px 16px;
+    border-radius: 18px;
+    font-size: 15px;
     line-height: 1.5;
-}
-
-.user-message {
-    background-color: #e3f2fd;
-    margin-left: auto;
-    border-bottom-right-radius: 0;
-}
-
-.bot-message {
-    background-color: #f1f1f1;
-    margin-right: auto;
-    border-bottom-left-radius: 0;
-}
-
-.input-area {
+  }
+  
+  .user-message .bubble {
+    background-color: var(--user-bg);
+    color: white;
+    border-bottom-right-radius: 2px;
+  }
+  
+  .bot-message .bubble {
+    background-color: var(--bot-bg);
+    color: var(--text);
+    border-bottom-left-radius: 2px;
+  }
+  
+  .input-area {
     display: flex;
     padding: 15px;
-    background-color: white;
-    border-top: 1px solid #eee;
-}
-
-#user-input {
+    background-color: var(--input-bg);
+    border-top: 1px solid var(--input-border);
+  }
+  
+  #user-input {
     flex: 1;
     padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 20px;
+    border: 1px solid var(--input-border);
+    border-radius: 25px;
     outline: none;
     font-size: 16px;
-}
-
-#user-input:focus {
-    border-color: #4a90e2;
-}
-
-#send-btn {
+    background-color: var(--input-bg);
+    color: var(--text);
+  }
+  
+  #user-input:focus {
+    border-color: var(--btn-bg);
+  }
+  
+  #send-btn {
     margin-left: 10px;
     padding: 12px 20px;
-    background-color: #4a90e2;
+    background-color: var(--btn-bg);
     color: white;
     border: none;
-    border-radius: 20px;
+    border-radius: 25px;
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.2s;
-}
-
-#send-btn:hover {
-    background-color: #3a7bc8;
-}
-
-#typing-indicator {
-    color: #666;
-    font-size: 24px;
-    text-align: left;
-    padding: 10px 15px;
-    animation: blink 1s infinite;
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
+  }
+  
+  #send-btn:hover {
+    background-color: var(--btn-hover);
+  }
+  
