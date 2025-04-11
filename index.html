@@ -1,19 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Serene - AI Journal Chatbot</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serene - AI Journal Chatbot</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class = "chat-container">
-        <div id="chat-output" class="chat-output"></div>
-        <div class="input-area">
-            <input type="text" id="user-input" placeholder="Type your message..." autofocus>
-            <button id="send-btn">Send</button>
-        </div>
+  <div class="chat-container">
+    <div id="chat-output" class="chat-output"></div>
+    <div class="input-area">
+      <input type="text" id="user-input" placeholder="Type your message..." autofocus>
+      <button id="send-btn">Send</button>
     </div>
-    <script src="app.js"></script>
+  </div>
+
+  <script>
+    const sendBtn = document.getElementById("send-btn");
+    const userInput = document.getElementById("user-input");
+    const chatOutput = document.getElementById("chat-output");
+
+    sendBtn.addEventListener("click", sendMessage);
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    function appendMessage(sender, message) {
+      const msgDiv = document.createElement("div");
+      msgDiv.classList.add("message", sender);
+      msgDiv.textContent = `${sender === 'user' ? 'You' : 'Serene'}: ${message}`;
+      chatOutput.appendChild(msgDiv);
+      chatOutput.scrollTop = chatOutput.scrollHeight;
+    }
+
+    function sendMessage() {
+      const message = userInput.value.trim();
+      if (!message) return;
+
+      appendMessage("user", message);
+      userInput.value = "";
+
+      fetch("http://127.0.0.1:8000/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt: message }),
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        appendMessage("bot", data.response);
+      })
+      .catch((err) => {
+        appendMessage("bot", "Sorry, I couldn't reach the server.");
+        console.error("Fetch error:", err);
+      });
+    }
+
+    // Initial bot message when page loads
+    window.onload = () => {
+      appendMessage("bot", "Hi, I'm Serene! How are you feeling today?");
+    };
+  </script>
 </body>
 </html>

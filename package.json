@@ -11,6 +11,12 @@
     "twilio": "^5.5.2"
   },
   "devDependencies": {
-    "@react-native-community/cli": "^18.0.0"
-  }
+    "@react-native-community/cli": "^18.0.0",
+    "concurrently": "^9.1.2"
+  },
+"scripts": {
+  "server": "node server.js",
+  "python": "\".venv\\Scripts\\python.exe\" -m uvicorn deepseek_api:app --host 127.0.0.1 --port 8000",
+  "start": "concurrently \"npm run server\" \"npm run python\""
+}
 }
