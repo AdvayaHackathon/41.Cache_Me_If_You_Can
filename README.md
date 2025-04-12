@@ -72,14 +72,14 @@ Created as part of the **Advaya Hackathon 2024** under the theme:
 
 1. Clone the repository:
 
-``` bash
+```bash
 git clone https://github.com/AdvayaHackathon/41.Cache_Me_If_You_Can.git
 cd 41.Cache_Me_If_You_Can
 ```
 
 2. Install Node.js dependencies:
 
-``` bash
+```bash
 npm install
 ```
 
@@ -119,7 +119,7 @@ Users can toggle between **Light** and **Dark** themes using the toggle switch. 
 
 - **Frontend:** HTML5, CSS3, JavaScript (Vanilla)
 - **Backend:** Node.js (Express), Python (FastAPI)
-- **AI Integration:** DGemini Flash 1.5, `@xenova/transformers` for sentiment analysis
+- **AI Integration:** DeepSeek-R1, `@xenova/transformers` for sentiment analysis
 - **Tools:** Git, GitHub, VS Code
 
 ---

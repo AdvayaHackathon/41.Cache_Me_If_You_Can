@@ -1,11 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const axios = require('axios');
 require('dotenv').config();
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -13,46 +14,68 @@ app.use(bodyParser.json());
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
-// Helper: Emergency keyword detection
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+.then(() => console.log("MongoDB connected"))
+.catch(err => console.error("MongoDB connection error:", err));
+
+// Schema definitions
+const userSchema = new mongoose.Schema({
+  username: String,
+  password: String // In production, hash passwords!
+});
+
+const chatSchema = new mongoose.Schema({
+  userId: mongoose.Schema.Types.ObjectId,
+  userMessage: String,
+  botResponse: String,
+  sentiment: String,
+  emergency: Boolean,
+  timestamp: { type: Date, default: Date.now }
+});
+
+const User = mongoose.model('User', userSchema);
+const Chat = mongoose.model('Chat', chatSchema);
+
+// Emergency trigger helper
 const isEmergency = (text) => {
   const triggers = ['suicide', 'end my life', 'kill myself', 'can’t go on', 'give up', 'hurt myself'];
-  const lowered = text.toLowerCase();
-  return triggers.some(trigger => lowered.includes(trigger));
+  return triggers.some(trigger => text.toLowerCase().includes(trigger));
 };
 
-// POST /chat route – combines sentiment + Python empathy response
+// Auth: Basic login
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  const user = await User.findOne({ username, password }); // No password hashing for demo
+  if (!user) return res.status(401).json({ error: 'Invalid credentials' });
+  res.json({ userId: user._id });
+});
+
+// Chat route
 app.post('/chat', async (req, res) => {
-  const { message } = req.body;
-  if (!message) {
-    return res.status(400).json({ error: "Message is required" });
-  }
+  const { message, userId } = req.body;
+  if (!message || !userId) return res.status(400).json({ error: 'Message and userId required' });
 
   try {
-    // Step 1: Gemini – Sentiment + basic supportive reply
     const geminiPayload = {
-      contents: [
-        {
-          role: 'user',
-          parts: [
-            {
-              text: `
-You are a highly professional therapist named Serene, trained in emotional support and mental wellbeing. You are calm, empathetic, and never judgmental. The user is sharing a thought with you.
+      contents: [{
+        role: 'user',
+        parts: [{
+          text: `
+You are a highly professional therapist named Serene. The user is sharing a thought.
 
 Task:
-1. Analyze the sentiment of the following message and label it as "positive", "neutral", or "negative".
-2. Then, write a supportive, compassionate response like a personal wellbeing companion.
+1. Label sentiment: "positive", "neutral", or "negative".
+2. Respond compassionately.
 
-Message:
-"${message}"
+Message: "${message}"
 
-Format your reply as:
+Format:
 Sentiment: <sentiment>
-Response: <your empathetic and helpful response>
-              `.trim()
-            }
-          ]
-        }
-      ]
+Response: <response>
+          `.trim()
+        }]
+      }]
     };
 
     const geminiRes = await axios.post(GEMINI_ENDPOINT, geminiPayload, {
@@ -63,7 +86,6 @@ Response: <your empathetic and helpful response>
     const sentimentMatch = fullText.match(/Sentiment:\s*(positive|neutral|negative)/i);
     const sentiment = sentimentMatch ? sentimentMatch[1].toLowerCase() : 'neutral';
 
-    // Step 2: Python FastAPI – deeper empathy response
     let sereneResponse = "I'm here for you. Please tell me more.";
     try {
       const pythonRes = await axios.post("http://localhost:8000/chat", { prompt: message });
@@ -72,17 +94,20 @@ Response: <your empathetic and helpful response>
       console.warn('[FastAPI error]:', fastapiErr.message);
     }
 
-    // Step 3: Emergency check
     const emergency = isEmergency(message);
-    if (sentiment === 'negative') {
-      console.log('[ALERT] User showing signs of distress.');
-    }
     if (emergency) {
       console.log('[EMERGENCY] Possible self-harm or suicide ideation detected.');
-      // TODO: Notify therapist or trigger emergency intervention
     }
 
-    // Final unified response
+    // Save chat to DB
+    await Chat.create({
+      userId,
+      userMessage: message,
+      botResponse: sereneResponse,
+      sentiment,
+      emergency
+    });
+
     res.json({
       sentiment,
       response: sereneResponse,
@@ -91,19 +116,19 @@ Response: <your empathetic and helpful response>
 
   } catch (error) {
     console.error('Gemini API error:', error.message);
-    res.status(500).json({
-      error: "Error processing message",
-      fallback: "I'm having trouble right now. Please try again later."
-    });
+    res.status(500).json({ error: "Processing error", fallback: "Please try again later." });
   }
+});
+
+// Get chat history
+app.get('/history/:userId', async (req, res) => {
+  const chats = await Chat.find({ userId: req.params.userId }).sort({ timestamp: 1 });
+  res.json(chats);
 });
 
 // Health check
 app.get('/health', (req, res) => {
-  res.json({
-    status: 'ok',
-    gemini: !!GEMINI_API_KEY
-  });
+  res.json({ status: 'ok', gemini: !!GEMINI_API_KEY });
 });
 
 app.listen(PORT, () => {
