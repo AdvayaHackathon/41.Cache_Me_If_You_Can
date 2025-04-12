@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Serene</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --primary-color: #4f46e5;
+        --primary-hover: #4338ca;
+        --error-color: #ef4444;
+        --success-color: #10b981;
+        --text-color: #1f2937;
+        --light-gray: #f3f4f6;
+        --border-color: #d1d5db;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f7f9fc;
+        color: var(--text-color);
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .signup-container {
+        width: 100%;
+        max-width: 420px;
+        padding: 20px;
+      }
+
+      .signup-box {
+        background: white;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        width: 100%;
+        transition: all 0.3s ease;
+      }
+
+      .signup-box h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: 600;
+        color: var(--text-color);
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+        position: relative;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        font-size: 0.95rem;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        font-size: 1rem;
+        transition: border 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+      }
+
+      .btn-signup {
+        display: block;
+        width: 100%;
+        background-color: var(--primary-color);
+        color: white;
+        padding: 12px;
+        font-size: 1rem;
+        font-weight: 500;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.1s ease;
+        margin-top: 10px;
+      }
+
+      .btn-signup:hover {
+        background-color: var(--primary-hover);
+      }
+
+      .btn-signup:active {
+        transform: scale(0.98);
+      }
+
+      .signup-footer {
+        text-align: center;
+        margin-top: 25px;
+        font-size: 0.95rem;
+        color: #6b7280;
+      }
+
+      .signup-footer a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .signup-footer a:hover {
+        text-decoration: underline;
+      }
+
+      .message {
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: 0.95rem;
+        display: none;
+      }
+
+      .error-message {
+        background-color: #fee2e2;
+        color: var(--error-color);
+        border: 1px solid #fecaca;
+        display: block;
+      }
+
+      .success-message {
+        background-color: #d1fae5;
+        color: var(--success-color);
+        border: 1px solid #a7f3d0;
+        display: block;
+      }
+
+      .password-container {
+        position: relative;
+      }
+
+      .toggle-password {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #9ca3af;
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 480px) {
+        .signup-box {
+          padding: 30px 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="signup-container">
+      <div class="signup-box">
+        <h2>Create Your Account</h2>
+        
+        <div id="errorMessage" class="message error-message"></div>
+        <div id="successMessage" class="message success-message"></div>
+        
+        <form id="signupForm">
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" placeholder="Enter your full name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-container">
+              <input type="password" id="password" placeholder="Create a password" required minlength="6">
+              <span class="toggle-password" id="togglePassword">Show</span>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <div class="password-container">
+              <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+              <span class="toggle-password" id="toggleConfirmPassword">Show</span>
+            </div>
+          </div>
+          
+          <button type="submit" class="btn-signup" id="signupButton">Create Account</button>
+        </form>
+        
+        <div class="signup-footer">
+          Already have an account? <a href="sign_in.html">Sign In</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    
+    <script>
+      // Firebase configuration - Replace with your actual config
+      const firebaseConfig = {
+      apiKey: "AIzaSyDE4VcDvMy3Sj3-N_K2-ge9l4QPYOfLRq0",
+      authDomain: "sign-up-19b1c.firebaseapp.com",
+      projectId: "sign-up-19b1c",
+      storageBucket: "sign-up-19b1c.firebasestorage.app",
+      messagingSenderId: "710331731090",
+      appId: "1:710331731090:web:9bf6ce32219f08c935ea4b",
+      measurementId: "G-GJ783843KF"
+    };
+
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+
+      // DOM elements
+      const signupForm = document.getElementById('signupForm');
+      const fullNameInput = document.getElementById('fullName');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const confirmPasswordInput = document.getElementById('confirmPassword');
+      const signupButton = document.getElementById('signupButton');
+      const errorMessage = document.getElementById('errorMessage');
+      const successMessage = document.getElementById('successMessage');
+      const togglePassword = document.getElementById('togglePassword');
+      const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+
+      // Toggle password visibility
+      togglePassword.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.textContent = type === 'password' ? 'Show' : 'Hide';
+      });
+
+      toggleConfirmPassword.addEventListener('click', function() {
+        const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        confirmPasswordInput.setAttribute('type', type);
+        this.textContent = type === 'password' ? 'Show' : 'Hide';
+      });
+
+      // Handle form submission
+      signupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Reset messages
+        errorMessage.style.display = 'none';
+        successMessage.style.display = 'none';
+        
+        // Get input values
+        const fullName = fullNameInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+        const confirmPassword = confirmPasswordInput.value.trim();
+        
+        // Validate inputs
+        if (!fullName || !email || !password || !confirmPassword) {
+          showError('Please fill in all fields.');
+          return;
+        }
+        
+        if (password !== confirmPassword) {
+          showError('Passwords do not match.');
+          return;
+        }
+        
+        if (password.length < 6) {
+          showError('Password must be at least 6 characters.');
+          return;
+        }
+        
+        if (!validateEmail(email)) {
+          showError('Please enter a valid email address.');
+          return;
+        }
+        
+        // Disable button during processing
+        signupButton.disabled = true;
+        signupButton.textContent = 'Creating Account...';
+        
+        // Create user with Firebase
+        auth.createUserWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            // Update user profile with full name
+            return userCredential.user.updateProfile({
+              displayName: fullName
+            }).then(() => {
+              // Send email verification
+              return userCredential.user.sendEmailVerification();
+            }).then(() => {
+              showSuccess('Account created successfully! Please check your email to verify your account.');
+              console.log('User created:', userCredential.user);
+              // Clear form
+              signupForm.reset();
+            });
+          })
+          .catch((error) => {
+            // Handle errors
+            let errorMessage = 'An error occurred during sign up.';
+            
+            switch (error.code) {
+              case 'auth/email-already-in-use':
+                errorMessage = 'This email is already registered.';
+                break;
+              case 'auth/invalid-email':
+                errorMessage = 'Invalid email address.';
+                break;
+              case 'auth/weak-password':
+                errorMessage = 'Password should be at least 6 characters.';
+                break;
+              default:
+                errorMessage = error.message || 'Sign up failed. Please try again.';
+            }
+            
+            showError(errorMessage);
+          })
+          .finally(() => {
+            // Re-enable button
+            signupButton.disabled = false;
+            signupButton.textContent = 'Create Account';
+          });
+      });
+      
+      // Helper function to validate email
+      function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+      }
+      
+      // Helper function to show error messages
+      function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
+      }
+      
+      // Helper function to show success messages
+      function showSuccess(message) {
+        successMessage.textContent = message;
+        successMessage.style.display = 'block';
+      }
+    </script>
+  </body>
+  </html>

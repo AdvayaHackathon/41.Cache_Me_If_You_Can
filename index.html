@@ -1,90 +1,166 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Serene - AI Journal Chatbot</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serene</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <button id="theme-toggle">🌙 Dark Mode</button>
+    <!-- Navbar Section -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h2>Serene - Your Emotional Well Being Companion</h2>
+            </div>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#mission">Mission</a>
+                <a href="sign_in.html" class="btn-login">Login</a>
+                <a href="sign_up.html" class="btn-signup">Sign Up</a>
+            </div>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
 
-  <div class="chat-container">
-    <div id="chat-output" class="chat-output"></div>
-    <div class="input-area">
-      <input type="text" id="user-input" placeholder="Type your message..." autofocus />
-      <button id="send-btn">Send</button>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-image">
+                <img src="https://images.pexels.com/photos/4101143/pexels-photo-4101143.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+            </div>
+            <div class="hero-content">
+                <h1>Your Personal Emotion-Well-Being-Companion Chatbot</h1>
+                <p>Discover a new way to understand your feelings. Our chatbot provides personalized support on your emotional journey.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn-explore">Explore</a>
+                    <a href="signup.html" class="btn-signup">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stress Section -->
+    <section class="stress">
+        <div class="container">
+            <div class="stress-content">
+                <h2>Tips To Improve Your mental Health</h2>
+           
+                    <h2 >Use Serene</h2>
+                  
+            </div>
+        </div>
+    </section>
+
+    <!-- Discover Section -->
+    <section class="discover">
+        <div class="container">
+            <h1 style="font-family: 'jsMath-cmr10'">Discover How Our Chatbot Works</h1>
+            <p>Engage with our chatbot to start your emotional journey. It listens to your thoughts and feelings, providing a safe space for expression. As you converse, it learns and adapts to your emotional needs.</p>
+            <div class="steps">
+                <div class="step">
+                    <h3>Step 1: Initiate Your Conversation</h3>
+                </div>
+                <div class="step">
+                    <h3>Step 2: Emotional Insights Gathered</h3>
+                </div>
+                <div class="step">
+                    <h3>Step 3: Generate Your Report</h3>
+                </div>
+                <br>
+                
+            </div>
+        </div>
+    </section>
+    <!-- Explore Section -->
+<section class="explore-section" id="explore-content" style="display: none;">
+    <div class="container">
+        <h2>Explore Serene in Action</h2>
+        <p>Here’s a sneak peek into how Serene helps you track and manage your emotional well-being in a meaningful way.</p>
+        <div class="explore-grid">
+            <div class="explore-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYQJr16Y2nbWFCaxB6Bw0UodDmIYqe3hiUJqxTvOn64Cic0yi_fcfTgDpBt7yvJ5o11ws&usqp=CAU" alt="Chatbot Example 1">
+                <p>Serene initiates the conversation, gently prompting emotional sharing.</p>
+            </div>
+            <div class="explore-card">
+                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxQTEhUTEhAVFhUVFxYVFxYYFhUXFhcXGBYXFhYYFRYYHiggGB0nGxoYITEhJSkrLi4uGB8zODMtNygtLi8BCgoKDg0OGhAQGy0lIB4tLS0tLzArKy0vNystKy0tLy0tNS0vLSswLy0yLS0rLS0vLS01LSstKy8tLSstLS0vLf/AABEIALwBDQMBIgACEQEDEQH/xAAcAAEAAQUBAQAAAAAAAAAAAAAABwEDBAUGAgj/xABQEAABBAECAgYFBgoFCAsAAAABAAIDEQQSIQUxBhMiQVFhBxQycZFSgZKhstEVFyMkNUJUcrHSFlNzosEzVWKTwtPh8AgYNFZjZHSElLPx/8QAGgEBAQEAAwEAAAAAAAAAAAAAAAIBAwQFBv/EADcRAAICAAIGBggGAwEAAAAAAAABAhEDEgQhMVGRoQUyQVJh4RMUQnGisdHiFSJigZLBMzTSI//aAAwDAQACEQMRAD8Am5URFRxhERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAazifH8eB2iWWnVq0hr3kN+U4MB0jzKujjEGgSOmYxjnaWue4Ma892gurVfdXNaCN+RDk5RGHLI2V4c17DGNVMa0NcX8mitvCzsvXCeAzwCF7WwPeGSsdG9zmtjEs3WnqXta7YeyW1TtLdxp35sTDjGCa26u1buVHFCUnKns19h1McgcLaQR4ggjbY7jzVt+ZGKuRgt2gW5ot/yRv7XlzXIZXRTJEZZDOG62kO/LTCnashwdGacGEdYzk39ShVNI2MHApWxTRdi5ZXya+tk5P7RLmFtGnEgx3pcALIuhwHNRvpcyNvtSMbTgw25opxAIbueZBBrzV+1zbOCTNDgHRuBa9lPc4gmS+tmPZ2cez+TG3tdq3Eroo20ALugBZ5mvFAVREWmBERAEREAREQBR1mcczC/PkZxLGgZiSyMZFLA12sMiZINUnWNIBLtOzSdu9SKuF4j6Oo5255kbD1+RMZoJ9AMkNMj6sFxF1rYSWjYhx8VhqMjH6fNdGwjDyJZBjw5GQ2FrHDHEsYkDXa3NLnVZDQCa7lek6ewmRzYMfJyWsjhlkfCxrgxk7dUR0OcHv7PaIa00D47LR8Y6ATyTyZIj4fNJkMhEwyI3vEMscYjc/GIFuaQL0OrcDfuXvj/QOeUtbF6kA2KKOOfq5IMjFcwUXQGH22k24Mc4Bt1uLsbqNzxHp7DE6WsfJkhx3BmRkRxtdFC7YuDgXB7tIILtLTptWuHdLKy54pnF0bsuLGx3AM0ML8RszQ5wokOdqo9rcgbBYWV0PzWsysXHyMf1XNfJJI+VshyIzM0CcMDexJqNkWW1qPPZZUvQp3VZrGSNaZZMeXGduTE/HiibEX7fKiF1exKDUZmR03iEjoYoJ5pRNJA1kbWW90LWumc1znhoYwuDS5xHasC6Wx4b0jhlx5MntMbD1gma8Br4nRAmRsgBIBA32JFEFclnejpxhxC31aefHbKJW5LXOhndO7rJX20FzHdZqINHY1S2A6HSfgyTCacaJ87wZjBGYogxz29Y2Nu5cerboDnbnvQzUYXRPplP1eQ7iAbbMRnEY2xtAd6u9r3OZRq3NLALJFl3cs1npGiprnYeY1ksMk8DnRsqdsbOtcIxrsO0W4B1WBtzF4nFfR0b1YuTLbsbKxJBkTSyjq5oS1gYXXp0yaHUOYB8luf6NPrhg1s/MaEnPt/mzoOxt4m962Q3UZ8fSKJ0uNFGHPOVE6djm6dLYmtadclmwCXtaKB3Pzrm+FZnEeIRuy8bMhgiL5W48JgEokbG90eqeQkObqc12zOQrmvHou4OGOypw8vjbJJh4hIHZxYJpHaWnmR1j3ts8xGOS9u6McQgjkxcHJgZjPe58b39a3Ixtb+sc2PQC2RocSRqrmQbQG06FdMWZ7Wjq3MlELZZBtoBMkkLmtN2afE/u5UsfC9IMU8cLsfFyZnzxvmELGxdYyJkjotchdIGAFzSANRJWs4R0MzcIwuw5cUu9WbjziUS6dTZZJevj07ucTI4lpIB8d9tbD6L5Yo8ctGFkyRQvx3symPMJHXSSxyRuaC5jxroiiCPig1HS/jCgc6JkOPlTvmh65jI4ml1CR0UjX6nAMcxzSDqoXQBJNLPxel0EkeHJG17vXX6I2gM1tLWvdKZAXUAzQ4Ookg+KwOjfRB+NlRTl0OlmG7Gc2KPqh1jsjry5jBs1vdzsndYHQ7hA/CedK1+qDHkfFA3ao5sgRz5gb7naR5anBDNR3yIi0wIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIsfiGayGJ8sjg1jGlzieQAFlYDIVVFuFk8V4xcuPOMDCJIjeWa5pQDWoMNDT52Pn7s38WWQfa47mE95AAHwvZZbKykioo6/FhP/nzN+r71znSnhMHD3MZldJMxj3jU1gaXu03Woht6RYIF86Ncils3KiaEXz3+FcD/vLxD/UyfcvUXE8BxA/pNnCzVmKQAe81sEtjKj6CRRyz0ZzEAjjuYQRYILSCDyINqp9GE3+fM36vvS2MqJEa2tgKRRxL0F4nB28Tjb3uG4jyIwWu8jICSB7gtt0C6YvyjLjZUJgzMc1LGeR8HM8Qedi9iOYIJXvMcTsURFRIQCuQ80RAEREAREQBERAEREAREQBERAEREAREQBERAFH3pwncOG9W00ZpY4797h/hakFR16bx+aY//qof4qZbCo7SQsLFbFGyKMBrI2tY0DkGtAaAPmCvq3IwEg37Jv6qXu0KKqNvSd6NouITR5BzRjyBnVHU0Oa8NLnCgXNII1G9ztXLvki1p+K8HM0hd1rWtdH1Tmlmp1ai4mN+oaHb86PIHuCqCTf5nRMm0tREv/V+d/nMf/HP+9XuD/o/kHtcT7JrUBj0SO8AmQ0fOipVd0eZZLZpWF1WWOa0kBznUSG9rd16jbthvzv03o9GA0CR9NY1nNtEMDQNQLaJ7I7u5SUbLBxWxRsiYKZGxrGjn2WgNG/uCvry2htf1qtoCjpADRIBPIWLKjbpcwQ8f4bMzY5Ec0Mnm2Pti/PtfUPBSFkY+q+1QcAD40CTsb2O6jvp5EG8W4I0HZpyQPmjjq69yx7ASSiIrOMIiIAiIgCo5wHPxA+c8lVWsk7D95n2ggLqIiAIiIAiIgCIiAIiIAiIgCIiAKOfTe781xx3+sxH+8pGUcem9v5rjn/zMI/vKZbCo7TvXc1RVdzVFyHXCIiA8udStHJHym/EeOn+O3vVyVaeaPGa5znOYHGw7tb9l/WHUB3h2+/uUtnNCKo2wlvkR5Ly3IB5Oae/YjlQP8CD84Wldg4YJBLBqAPt7EDS7sm65aT7vnWRNDjm2OezkBWsAjZgFb7bNb/yVlsrIjadZ7lp+LcBinycbJe54kxTIYw0tDTrADtYIJNV3ELxHjYjWkhzA0tcwnXdge1VnevLxXqThmMC4OFEgW4l1AWCLedgdhsTZ87WWaopG99bPl/z86r60fJaKTCxXU4ubVNAIkABDeyKIPg0j6XmsjE4bEHCRm57RDtV3ezt+/v+f3BBSN9FJYtelr5cwRRl5PeAPeeS5CLplKJZXF0boInhmnS4SHsg2HE6T2iBVcjfcjaW0xRbuuw79F4x5g9rXjk5ocPcRYXtUSVWr4vnhha2runc69kgrJfkhzbHmPrI/wAFzXE+lWHE4smyoQ4c2Fwc4e9gsj4LC0jas47ZA0Dcgc/ErdjyXB4/TfhxPZy4W+bgY/rcAF1XDctr2h7Htc0iw5pDmkeII2KwUbFF4hlDhY8SPgaXtUQEREAREQBERAERcPxL0mY8byyOJ8oaa1gta0kfJuyR57LmwdHxMZ1hq6OPExYYauTo7hFHv404/wBkf9Nv3J+NOP8AZH/Tb9y7H4bpXc5r6nF63g975khKOPTgfzXH8PWYvtBXfxpx/sj/AKbfuXMdPOlTeIRRxtidH1crJLLg69JutqWPozSu5zX1KWmYC9r5kvv5rza4Q+k2P9lf9Nv3Kn4zI/2V/wBNv3K/w3Se5zX1OD1rC3nehFwX4zI/2V/02/cn4zY/2V/02/cn4bpPc5r6j1rC7x3Mi00uTjB7rYNZNOIYbJaXCrA33Dtu/fx3dHOksOaHBgc17N3MdV0dtQI2cO7/APQtw2EDlXO+XfzJ99rpYuFPDk4yVM7mFixlG0zRuzsV5a2g7VTWnSSDs3SQR4hzSHDuHPYKj87GDrLT2w4lxBqmkNI8a2dsNjpd4777qv8Amk6pcdM5M8TQuycVt2yiNTa0kHb2gL59wPd7PcNvUmZjyD2C800VRJO5obmidnd/cR377wxLQ8d6RNxsrFxjEXHK62nAgBvVNDjYre7WNUFJPUjZuwYyRbB2QQPIOILh85Av/iVdhhaxoa0AAcgPM3/FZnqvn9Seq+f1IbaMXL4eJ4XxFxbq5OHNpG4IXOcP6BNbrbKWva9wcTbibH6zeWlxobg9y7SNlCgvS0m9ZRjAAABQAAA8hyVURaYa8cPDNRa46aPZO9Em9j8V87R8DEvE5MVziwGafcAE0Ose07+IA+K+mSFAvThxwOM+sdWXhzQ/Tem3FjoXAGjXIHl3oqtWZiZ3hyybade+tRyH4NHqQytRsz9TpoVXV69V877lNXolwCOGRi9JeZH3z2dK4j4tH1qEhxEnEGK2Oz1/Wh18z1fVhgbXOzzv5l9MdGOHjHxYoh+oxjPotDb+orHXYIZlebe69xnYmMI26W3uSSSbJJ5q8iLTQiIgCIiAIiIDG4mfyMv9m/7JUB8MzRHdxNfYHPuq/I+fwU98V/yEv9m/7JUCcNzHxg6GNdem7aXVVgVXL2iF73Q6vDxNW48zT3UofuXTnx9s+rNGojTRHY7IFC2kHvO/j47r07icZJJxWeNAjvO++nly89ue5u47iM2jq3QiiNjpdZLm0Hm73IBdYqzZ8b9w8VnA7MDCBTf8k42S0ab38AD8PJevl8PiZ0r8fhLY4tFYPqkexB2d4EmhbTtd872PiAR4lz4CW1jjSDbjsHOGkjTQ2A3G/kDubv03iM1gtjrZ1U2SqJYSRvyGlvLYe6q9N4pKHh5gZ7LW11bgCNRcO/mSDv5JkrYviGbx5GNNnRlpAx2tcf1rBoXdAaR7ru68Tubn4Ri2Pqravey3lvtYYK7vo+Zv3Lxp9n8lGLqxTu4DxPI7muXaN3Zv1+H36i4Rxi6oU41RJBB1c9xv/ojwW5XXV+IzMr63IsniEZ29WYBVE2C794dkAHnyrn5Cter2ZkmR2oho2ApooUOWysLlhGkcUpWdZ6Mj+ej+yk/2VLSiT0Z/9tH9nJ/sqW1810v/ALH7L+z1dC/x/uERF5Z2wo79IH6W4R/7v/62qRFHnT9t8W4QB3nLHxjapn1WXh9ZEnqiqqIWEREBiZGZpeG157948vq+HmCsiF5IBIq7/jt9S8ZeMJGlp28CObT3Eea5fD4pLizerzMLrssf2g1w8GmiC489PdusN2nXLg/SZ0OOaYZWSOjfET2msLzRo8gQRu1pB7qPiuwwuJxykhh3Asgjl/grhyChqREOL0Hl6+KfKzZJmwuDgHxuFlp1ABznmu0ATQN0pa4dnNlHY9kBvvvewR5bfFVkl1AhzQQdiCLB94WmyeGvhubHDnAC3Qg0TW/YJ2PuPzHkEsKKSpHSIsXhWQ+SJj5GFjyO009xBI/wv51lLSQiIgCIiAIiIC1lQ62PZdamubfhYIUCStnw5HRvbodyIc0EOoFoLSeYoncc7U+zShrXOPJoLj7gLKhbP6Z5s73PZK9jBvojHZY3u1ECz7z9XJe10R6T86STjqu3Xu7Gefp2X8rbafZRqDxya760XvvpZ31fd5D4BePwtJZPWDtCnbM3FAb7b7ALc4nGc+Rpc3MfQuwZKPZ0WQOZ9scvA+V3H8R4kCGnJlsguA1g2AQO7xLm1717NpOsseP2nQpvXcuHmaQ8ZlJDjLZFgWGbXv4eK9/h2cm+t3oi6ZYB50a27vgPBbeXiXEWkA5clnl+UBvtsYPdu9p37irHEsfNyGNE0hlYCHNDnAgO/VIvv/he9LM0e7Hj9ptS3y4eZoZp9Ti5zgSdydh/BeNQ8Qun9f4jT3esvph0k9YOdAivG7H/AAXuLK4i6qyX7ix+UG+115fPsr9M0vZ/l9pHor38PM5XUPEJqHiF1AzuIW5vrb9TNFgSX7d6aPLu/vDzrHyOM5zG6nZUlaiyw/vbYPzWDv5FUsWT1JL+T/5MeGlv4eZuvRfwuTrjkFpEYY5ocRWpziPZ8QADZ9yk1cJ6Pek808joJ3ayGl7H0A7YgFrq58wQfIru18z0k8R47zrhuPU0VR9GsoREXQOwCo+6dfpjg/72V9hikJR706/THB/3sr7DFMtheH1iTVRVVELCIiAKqoiAweOZwx8eacgHq43P9+kEgX5mh86hP+nWc7f1wi96DIQB5DsKRvTHlFnCp65uMTPmdMwH6rXzqJj4rCqJE/ptnftjvoQ/yKQvRb0nky2TRzv1yRFpDqa0lj9VAhoA2LTvXeF889e7xKkb0EZpGfLH3Px3O+dkkdfaKNhInhFUqi0kIiIAiIgCIiAxuJNJhlAFkxvA+iVD/RLpaMOGSMwa9Z1g6gASWhumQVu3a/nPipqUNdJJOGGd5jbkczqMToxEXXuWawTV+G3hsvW6MyzU8KcW06erwOjpjlFxnFpNXzOfwoIi0GSYsOoigCTQDaNAeJO/+hXfYverY9bZBvf9V24rYXp232vw3r9VXtWB8nM+nj/yJqwPk5n08f8AkXvuTb9rkeYklu5mDlmMaTE5xcDZcSedMII2BB1avgFi2fE/Hx5rcasD5OZ9PH/kWHxM4+kerCcO1DV1pjc3T31oAN/UqjiUqyslwvXaMMnzPil+a22rB+Tl/Tg/lTVg/Jy/pwfyqvSfpZmTxRqb80tbbVg/Jy/pwfypqwfk5f04P5U9L+ljJ4o2/owH56fKF/2mKWFyPo9fh6HjGDxJt1nWUZCP1d27afd8665fL9JYmfHepqtWs9bRY5cNawiIugdgKPunX6X4N+9lfYYpBUfdOv0xwf8AeyfsMUy2F4fWRJiIiFhERAEREBqekWDFPGYZ2B8bwNTTdGjYNjcEEA2PBcd+Lbhf7Kf9fk/7xd7xHCEravSRyP3hcPmZnVvcxzxbSQefd8yktFr8W3C/2U/6/J/3i3HRvovh4by/GgDHuGkuL5Hu02DpBe40LA2HgFphxUfLH1/cuq4Bg6mtlc6wdwB763+5DTflURFRxhERAEREAREQGNxM1DKR/Vv+yVDPRngMWRE573PBD9Di10bWwsEeoTSh+7mk7UK9k73QU2zRhzS08nAtPuIoqFuK9BcqKQtbGJGfqvDmCx3WHEEHx/iV7HReJFRnBzyt1/Z0NMi24yy2lZruCukIpsIe3VZBdpaTQNOF072RV8jfivf5XVvjNA9vTpDRTA/ffbYSjc/JasiLo9nNFNjcBeqhLGBfj7fPl8EPR/Pu+rfdV/lY+Rqx7ffQ+C9p4mG23mjx8zoKM0kssuHkeBLIbaMKPs6QaaCe0OyT30QPh3jmvMz5d7ww3WA1ts9n2nAtBHPfy5K+3gPEByY8bAf5WPk26Ht8tz8T4rD4ljZWOGvm1NGoNaS9r+0RQFAn4lZmw+9Hj5m1PdLh5F1jpQGtOGw1TR2BbiANnHvNEEjntfcV6z8qUt1SY7AA5hAdp27RJGk79ogA+QKuHhHEO8Sbf+Kw+fy1bl4Bmu2dG51VzkjPK6/W8z8UUsO7co8fMx5qpKXDyMJ3EgdJ6iOw5xJ0gWCCGjl3WT9HwV1vGtq9Xh5k+yKuwRtXht8w+f3/AEXyv6j+/F/Mn9F8r+o/vxfzK82jv2lx8yP/AG3Pgbb0YH89P9k/7TFLC4f0f9Fpcd7p5wGuLSxjAQ40SCXOI27hQvvK7gr53pPFhiY7cXapHpaJBxw6YRKReedkKPunX6Y4P+9k/YYpBUe9Ov0xwf8AeyfsMUz2MvD6yJNREQsIiIAiIgC5/ifRGCZ5fqlY5xs6HbE+NOBr5l0CLAcrH0EgBszTny1NH8GrpcXHbGwMYKa0UBZP1ncq6iG2ERFpgREQBERAHGhZ5Ddc7P0jdqqOK23Xsvcfn07D3Lfzx6mub8oFvxFKPuJ8PyWyxaJXxiOTW5oc9oeOzfsbSDsVR2p5XNhRTTdWzrY8mmldLedpBxQPhfK0bsa4lvmG6ufgVDeLwfLz+syAOsIPac5wBc6tWiMHwBG2wAIUtcH4a4QSNfYMoI3G4BaRZHdzOyiePiGbw7rMezHqJu2gi6064nEd4A3Hl4L1ujrTxFg1m1Ve7tOppDuMHi3Wu639hq8PGic06pNLt6FNo1oqySKu3eW3MVvd9QhuvWWkFpN6KANtoHUe8E94ohW8GeJoAki1drdwJBDaApoB5g2VcgzIBWrHs2Se0aqyQBvvXZG/yT4r3JZ7dXyOhHLSuuZV3DYtIcMhtGTqydFVs7tEarrYd3J3zL16jj9n84slxDiAAAO40fPzVrJzIiCI4GtsUSe0btpFE8qAcNqvUsG0jGbWttcA5RT1JPibKDh0JaCclrSQ3YiyCQ0uuu4EuHdyHuVv1GKj+XbYdp9kbjUBqG/Kt+//ABWDaWqyS7z5E547vmbEcOh2/OW7i92DY1ek9rnz+HmLt5mFE1upk7XnVWnTRrnd9/wWFaWtUZX1nyDlGtnzO49FnEHid0GomMsc8NPJrmlu7fCwTfzKTlG3ov4RL1rshzC2MMLGkgjWXFp7N8wAOfmPNSXS+X6UcfWHl8L9562iJ+iVnlF6pUpecdkoo96d/pfg/wC9k/YYpDpcB04ZfF+D+RyvsMUy2Fw6xJSoqqiFhERAEREAREQBERAEREAREQBFUqiAKqoiAKqoiAqioiAquT9I2J1kEY8JmH4FdWtZx6MFjb+UFjNRnEKlL2UpURR4pKVykpLFFshYRlF0XC9tr8br+B+BWwcNlqMrBjkBD2BwIAPP9XVXLlWp3xUsuCLjspgFmRoG++oVtd/wPwVBlMsjW2xV7jv5LGdwiEm9G9V7bxVcqp21UAPAABVk4RC4lxiBJqzbu6tufLYbeSwsyhkN37bdtj2htRLd/DcEe8FeRPG6jrYfA2Dz22+B+CtnAjsnSbcST2nDcuDiRvsbA5eAVs8Jh/q/7zvADlfgAPOh4IDJdlMAsvFWBdjmRq/hv7t1QZbOXWN+kFZj4ZE0U1lCwT2nb0CNzdkUTtyNlW28FhADdBNDTZc+yNue+/IfAeAQGazIF0HC61CjzHiPEcviF64xxZsDC41YYXmz3NFnbv5K03GaHagDdV7TqqyfZuuZPd4eAXLekwbwAE/lWujd+6KIrwPaK1ayJtJWzd9HulXXFjZYxG6QXHTw8O2JPabsCKO3u8V0qj/ofwphdizFzy5rHbF3ZPtUdPd81KQFMG3FNlYiSk0giIrICIiAIiIAiL00LAj/2Q==" alt="Chatbot Example 2">
+                <p>As you respond, it detects emotional patterns using NLP and sentiment analysis.</p>
+            </div>
+            <div class="explore-card">
+                <img src="data:image/png;base64,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" alt="Chatbot Example 3">
+                <p>Finally, it generates an insightful emotion report to help you reflect and grow.</p>
+            </div>
+        </div>
     </div>
-  </div>
+</section>
 
-  <script>
-    const sendBtn = document.getElementById("send-btn");
-    const userInput = document.getElementById("user-input");
-    const chatOutput = document.getElementById("chat-output");
 
-    sendBtn.addEventListener("click", sendMessage);
-    userInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") sendMessage();
-    });
+    <!-- Call to Action Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h1 style="font-family: 'jsMath-cmr10'">Start Your Emotional Journey Today</h1>
+                <p>Experience the power of emotional insights with our free trial or schedule a personalized demo.</p>
+                <div class="cta-buttons">
+                    <a href="signup.html" class="btn-signup">Sign Up</a>
+                    <a href="#" class="btn-learn">Learn More</a>
+                </div>
+            </div>
+            <div class="cta-image">
+                <img src="https://images.unsplash.com/photo-1517960413843-0aee8e2b3285?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" alt="Person looking at sunset">
+            </div>
+        </div>
+    </section>
 
-    function appendMessage(sender, message) {
-      const msgDiv = document.createElement("div");
-      msgDiv.classList.add("message");
+    <!-- Mission Section -->
+    <section class="mission" id="mission">
+        <div class="container">
+            <h2>Mission</h2>
+            <p>Our mission is to empower individuals by providing mental health support that is always available, easy to use, and focused on your unique needs. Whether you're dealing with stress, anxiety, loneliness, or just need someone to talk to, Our chatbot is here to listen.</p>
+        </div>
+    </section>
 
-      if (sender === 'user') {
-        msgDiv.classList.add("user-message");
-        msgDiv.innerHTML = `<div class="bubble">You: ${message}</div>`;
-      } else {
-        msgDiv.classList.add("bot-message");
-        msgDiv.innerHTML = `<div class="bubble">Serene: ${message}</div>`;
-      }
+    <!-- Contact Us Section -->
+    <section class="contact">
+        <div class="container">
+            <div class="contact-form">
+                <h2>Contact Us</h2>
+                <form>
+                    <div class="form-group">
+                        <input type="text" placeholder="Name:">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email id">
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Message"></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Submit</button>
+                </form>
+            </div>
+            <div class="contact-image">
+                <img src="https://images.pexels.com/photos/7709201/pexels-photo-7709201.jpeg?auto=compress&cs=tinysrgb&w=400">
+            </div>
+        </div>
+    </section>
 
-      chatOutput.appendChild(msgDiv);
-      chatOutput.scrollTop = chatOutput.scrollHeight;
-    }
+    <!-- Footer Section -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#" id="about">About</a>
+                <a href="#">Contact Us</a>
+                <a href="#mission">Mission</a>
+            </div>
+        </div>
+    </footer>
 
-    function sendMessage() {
-      const message = userInput.value.trim();
-      if (!message) return;
-
-      appendMessage("user", message);
-      userInput.value = "";
-
-      fetch("http://127.0.0.1:8000/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ prompt: message }),
-      })
-      .then((res) => res.json())
-      .then((data) => {
-        appendMessage("bot", data.response);
-      })
-      .catch((err) => {
-        appendMessage("bot", "Sorry, I couldn't reach the server.");
-        console.error("Fetch error:", err);
-      });
-    }
-
-    // Theme toggle setup
-    const toggleBtn = document.getElementById("theme-toggle");
-    const root = document.documentElement;
-
-    window.onload = () => {
-      const savedTheme = localStorage.getItem("theme") || "light";
-      root.setAttribute("data-theme", savedTheme);
-      toggleBtn.textContent = savedTheme === "dark" ? "🌞 Light Mode" : "🌙 Dark Mode";
-      appendMessage("bot", "Hi, I'm Serene! How are you feeling today?");
-    };
-
-    toggleBtn.addEventListener("click", () => {
-      const currentTheme = root.getAttribute("data-theme");
-      const newTheme = currentTheme === "dark" ? "light" : "dark";
-      root.setAttribute("data-theme", newTheme);
-      localStorage.setItem("theme", newTheme);
-      toggleBtn.textContent = newTheme === "dark" ? "🌞 Light Mode" : "🌙 Dark Mode";
-    });
-  </script>
+    <script src="main.js"></script>
 </body>
-</html>
+</html> 

@@ -1,0 +1,420 @@
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Custom Font for Stress Section */
+@font-face {
+    font-family: 'jsMath-cmr10';
+    src: url('https://i.pinimg.com/736x/49/2b/c7/492bc72421a00827b62b781cad385e56.jpg') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+  
+body {
+    font-family: 'Lora', sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+section {
+    padding: 80px 0;
+}
+
+/* Section Headings */
+h1, h2, h3 {
+    margin-bottom: 20px;
+}
+
+/* Images */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 30px;
+}
+
+/* Anchor Links and Buttons */
+a {
+    text-decoration: none;
+    color: inherit;
+    
+}
+
+.btn-signup, .btn-login, .btn-explore, .btn-learn, .btn-submit,.btn-Lets-Start {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 35px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-signup, .btn-explore, .btn-submit {
+    background-color: #FAE033;
+    color: #333;
+}
+
+.btn-login, .btn-learn,.btn-Lets-Start{
+    border: 2px solid #FAE033;
+    color: #333;
+}
+
+.btn-signup:hover, .btn-explore:hover, .btn-submit:hover {
+    background-color: #e6cc2f;
+}
+
+.btn-login:hover, .btn-learn:hover,.btn-Lets-Start:hover {
+    background-color: #FAE033;
+}
+
+/* Navbar Styles */
+.navbar {
+    background: linear-gradient(90deg, #415156, #4F8CBB, #8DB0BC, #4E96AF, #042C41);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo h2 {
+    color: #fff;
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.nav-links a {
+    color: #fff;
+    font-weight: 500;
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background-color: #fff;
+}
+
+/* Hero Section Styles */
+.hero {
+    background-color: #f9f9f9;
+}
+
+.hero .container {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.hero-image, .hero-content {
+    flex:1;
+    
+}
+
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    color: #333;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    
+}
+
+/* Stress Section Styles */
+.stress {
+    background: url('https://www.nchealthinfo.org/wp-content/uploads/2019/08/ManagingStress.jpg') no-repeat center center/cover;
+    color: #fff;
+    text-align: center;
+    padding: 150px 0;
+    position: relative;
+    margin-bottom: 50px; /* Add extra bottom spacing */
+}
+
+.stress::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 0;
+}
+
+.stress-content {
+    position: relative;
+    z-index: 1;
+}
+
+.stress-content h2 {
+    font-family: "jsMath-cmr10", serif;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+/* Discover Section Styles */
+.discover {
+    background: linear-gradient(90deg, #6C412A, #833E27, #8B3E35, #9A371C);
+    color: #fff;
+    text-align: center;
+    padding: 100px 0 80px; /* Slightly increased top padding for separation */
+    margin-top: 50px; /* Extra spacing from previous section */
+}
+
+.discover h2 {
+    margin-bottom: 20px;
+}
+
+.discover p {
+    max-width: 800px;
+    margin: 0 auto 40px;
+}
+
+.steps {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.step {
+    flex: 1;
+    padding: 30px;
+    margin: 10px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.step:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.discover-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    width: 100%;
+    flex-wrap: wrap;
+    color: white; /* Allows better responsiveness */
+}
+
+
+/* Call to Action Section Styles */
+.cta .container {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.cta-content, .cta-image {
+    flex: 1;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+   
+}
+
+/* Mission Section Styles */
+.mission {
+    background: linear-gradient(90deg, #415156, #678089, #7A98A3, #8DB0BC);
+    color: #fff;
+    text-align: center;
+    padding: 80px 0;
+}
+
+.mission p {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Contact Section Styles */
+.contact .container {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.contact-form, .contact-image {
+    flex: 1;
+}
+.contact-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 30px;
+}
+
+
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+}
+
+.form-group textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+/* Footer Styles */
+footer {
+    background: linear-gradient(90deg, #415156, #4F8CBB, #8DB0BC, #4E96AF, #042C41);
+    color: #fff;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .hero .container, .cta .container, .contact .container {
+        flex-direction: column;
+    }
+    
+    .steps {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        flex-direction: column;
+        background: linear-gradient(90deg, #EDD9DB, #A9B0B5, #8DB0BC, #4E96AF, #042C41);
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+        padding: 20px 0;
+        z-index: 999;
+    }
+
+    .nav-links.active {
+        left: 0;
+    }
+
+    .hamburger {
+        display: block;
+    }
+    
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .hamburger.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    
+    .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+    
+    section {
+        padding: 60px 0;
+    }
+    
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .stress-content h2, .discover h2 {
+        font-size: 2rem;
+    }
+    
+    /* Adjust Stress section padding on mobile */
+    .stress {
+        padding: 500px 0;
+    }
+    
+    /* Ensure steps in discover section stack well */
+    .steps {
+        gap: 20px;
+    }
+}
+.explore-section {
+    background: #f4f4f4;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.explore-grid {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.explore-card {
+    flex: 1 1 280px;
+    max-width: 320px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.explore-card:hover {
+    transform: translateY(-5px);
+}
+
+.explore-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}

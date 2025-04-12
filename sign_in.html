@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Serene</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #4f46e5;
+      --primary-hover: #4338ca;
+      --error-color: #ef4444;
+      --success-color: #10b981;
+      --text-color: #1f2937;
+      --light-gray: #f3f4f6;
+      --border-color: #d1d5db;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f7f9fc;
+      color: var(--text-color);
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 420px;
+      padding: 20px;
+    }
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    .login-box h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      font-size: 1rem;
+      transition: border 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    }
+
+    .btn-login {
+      display: block;
+      width: 100%;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.1s ease;
+      margin-top: 10px;
+    }
+
+    .btn-login:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-login:active {
+      transform: scale(0.98);
+    }
+
+    .login-footer {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 0.95rem;
+      color: #6b7280;
+    }
+
+    .login-footer a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .login-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .message {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 0.95rem;
+      display: none;
+    }
+
+    .error-message {
+      background-color: #fee2e2;
+      color: var(--error-color);
+      border: 1px solid #fecaca;
+      display: block;
+    }
+
+    .success-message {
+      background-color: #d1fae5;
+      color: var(--success-color);
+      border: 1px solid #a7f3d0;
+      display: block;
+    }
+
+    .password-container {
+      position: relative;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #9ca3af;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 480px) {
+      .login-box {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-box">
+      <h2>Login to Serene</h2>
+      
+      <div id="errorMessage" class="message error-message"></div>
+      <div id="successMessage" class="message success-message"></div>
+      
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" id="email" placeholder="Enter your email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="password-container">
+            <input type="password" id="password" placeholder="Enter your password" required>
+            <span class="toggle-password" id="togglePassword">Show</span>
+          </div>
+        </div>
+        
+        <button type="submit" class="btn-login" id="loginButton" >Sign In</button>
+      </form>
+      
+      <div class="login-footer">
+        Don't have an account? <a href="sign_up.html">Sign Up</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  
+  <script>
+    // Firebase configuration - Replace with your actual config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDE4VcDvMy3Sj3-N_K2-ge9l4QPYOfLRq0",
+      authDomain: "sign-up-19b1c.firebaseapp.com",
+      projectId: "sign-up-19b1c",
+      storageBucket: "sign-up-19b1c.firebasestorage.app",
+      messagingSenderId: "710331731090",
+      appId: "1:710331731090:web:9bf6ce32219f08c935ea4b",
+      measurementId: "G-GJ783843KF"
+  };
+
+    
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // DOM elements
+    const loginForm = document.getElementById('loginForm');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const loginButton = document.getElementById('loginButton');
+    const errorMessage = document.getElementById('errorMessage');
+    const successMessage = document.getElementById('successMessage');
+    const togglePassword = document.getElementById('togglePassword');
+
+    // Toggle password visibility
+    togglePassword.addEventListener('click', function() {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      this.textContent = type === 'password' ? 'Show' : 'Hide';
+    });
+
+    // Handle form submission
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Reset messages
+      errorMessage.style.display = 'none';
+      successMessage.style.display = 'none';
+      
+      // Get input values
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+      
+      // Validate inputs
+      if (!email || !password) {
+        showError('Please fill in all fields.');
+        return;
+      }
+      
+      // Basic email validation
+      if (!validateEmail(email)) {
+        showError('Please enter a valid email address.');
+        return;
+      }
+      
+      // Disable button during processing
+      loginButton.disabled = true;
+      loginButton.textContent = 'Signing In...';
+      
+      // Sign in with Firebase
+      auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // Signed in successfully
+          showSuccess('Login successful! Redirecting...');
+          
+          setTimeout(() => {
+      window.location.href = 'chat.html';
+    }, 1500); // 1.5 second delay for user to see the success message
+
+    
+
+          
+          // In a real app, you would redirect to another page
+          // window.location.href = '/dashboard.html';
+          
+          // For demo purposes, we'll just log the user
+          console.log('User logged in:', userCredential.user);
+        })
+        .catch((error) => {
+          // Handle errors
+          let errorMessage = 'An error occurred during login.';
+          
+          switch (error.code) {
+            case 'auth/invalid-email':
+              errorMessage = 'Invalid email address.';
+              break;
+            case 'auth/user-disabled':
+              errorMessage = 'This account has been disabled.';
+              break;
+            case 'auth/user-not-found':
+              errorMessage = 'No account found with this email.';
+              break;
+            case 'auth/wrong-password':
+              errorMessage = 'Incorrect password.';
+              break;
+            default:
+              errorMessage = error.message || 'Login failed. Please try again.';
+          }
+          
+          showError(errorMessage);
+        })
+        .finally(() => {
+          // Re-enable button
+          loginButton.disabled = false;
+          loginButton.textContent = 'Sign In';
+        });
+    });
+    
+    // Helper function to validate email
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+    
+    // Helper function to show error messages
+    function showError(message) {
+      errorMessage.textContent = message;
+      errorMessage.style.display = 'block';
+    }
+    
+    // Helper function to show success messages
+    function showSuccess(message) {
+      successMessage.textContent = message;
+      successMessage.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
