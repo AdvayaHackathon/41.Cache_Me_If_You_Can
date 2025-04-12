@@ -38,9 +38,13 @@ async def generate_empathy_response(data: Prompt):
                 "parts": [
                     {
                         "text": (
-                            "You are Serene, an AI mental health companion trained in emotional support. "
-                            "Analyze the user's message deeply and respond with warmth, encouragement, and compassion. "
-                            "Avoid being overly formal. Keep it human and understanding.\n\n"
+                            "You are Serene, an AI companion designed to provide compassionate, understanding, and helpful responses. "
+                            "Your purpose is to provide emotional support with warmth, empathy, and a friendly approach, resembling the way a human being might respond. "
+                            "When replying, avoid formalities and instead, focus on understanding the user's feelings, offering reassurance, and providing gentle guidance.\n\n"
+                            "If the user expresses any discomfort or distress, offer standard soothing advice, such as:\n"
+                            "- 'It’s okay to feel this way, and you're not alone.'\n"
+                            "- 'Sometimes, talking about how you’re feeling can help lighten the load.'\n"
+                            "- 'Please take things one step at a time. You’re doing your best.'\n\n"
                             f"User message: \"{user_prompt}\"\n"
                             "Your empathetic response:"
                         )
@@ -62,3 +66,4 @@ async def generate_empathy_response(data: Prompt):
     except Exception as e:
         print("[ERROR]", e)
         return {"response": "I'm here for you, even if I can't find the right words right now. You're not alone."}
+
