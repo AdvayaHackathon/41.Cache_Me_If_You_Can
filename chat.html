@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Serene - AI Journal Chatbot</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body onload="checkAuth();">
+
+  <nav class="navbar">
+    <div class="nav-left">
+      <h1>Serene</h1>
+    </div>
+    <div class="nav-right">
+      <button id="theme-toggle">🌙</button>
+      <button id="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="chat-container">
+    <div id="chat-output" class="chat-output"></div>
+    <div class="input-area">
+      <input type="text" id="user-input" placeholder="Type your message..." autofocus />
+      <button id="send-btn">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const sendBtn = document.getElementById("send-btn");
+    const userInput = document.getElementById("user-input");
+    const chatOutput = document.getElementById("chat-output");
+
+    sendBtn.addEventListener("click", sendMessage);
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    function appendMessage(sender, message) {
+      const msgDiv = document.createElement("div");
+      msgDiv.classList.add("message");
+      msgDiv.classList.add(sender === "user" ? "user-message" : "bot-message");
+      msgDiv.innerHTML = `<div class="bubble">${sender === "user" ? "You" : "Serene"}: ${message}</div>`;
+      chatOutput.appendChild(msgDiv);
+      chatOutput.scrollTop = chatOutput.scrollHeight;
+    }
+
+    function sendMessage() {
+      const message = userInput.value.trim();
+      if (!message) return;
+      appendMessage("user", message);
+      userInput.value = "";
+
+      fetch("http://127.0.0.1:8000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: message }),
+      })
+      .then(res => res.json())
+      .then(data => {
+        appendMessage("bot", data.response);
+      })
+      .catch(err => {
+        appendMessage("bot", "Sorry, I couldn't reach the server.");
+        console.error("Fetch error:", err);
+      });
+    }
+
+    // Theme Toggle
+    const toggleBtn = document.getElementById("theme-toggle");
+    const root = document.documentElement;
+
+    window.onload = () => {
+      const savedTheme = localStorage.getItem("theme") || "light";
+      root.setAttribute("data-theme", savedTheme);
+      toggleBtn.textContent = savedTheme === "dark" ? "🌞" : "🌙";
+      appendMessage("bot", "Hi, I'm Serene! How are you feeling today?");
+    };
+
+    toggleBtn.addEventListener("click", () => {
+      const current = root.getAttribute("data-theme");
+      const newTheme = current === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+      toggleBtn.textContent = newTheme === "dark" ? "🌞" : "🌙";
+    });
+
+    // Auth check
+    function checkAuth() {
+      if (!localStorage.getItem("userId")) {
+        window.location.href = "login.html";
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem("userId");
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>

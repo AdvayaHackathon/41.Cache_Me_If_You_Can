@@ -1,28 +1,41 @@
 const express = require('express');
+const session = require('express-session');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const axios = require('axios');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middleware
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+  secret: 'serene-secret-key',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // HTTPS should be true in production
+}));
+
+// Gemini API Config
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
-// Connect to MongoDB
+// MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-.then(() => console.log("MongoDB connected"))
-.catch(err => console.error("MongoDB connection error:", err));
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.error("MongoDB connection error:", err));
 
-// Schema definitions
+// Schemas
 const userSchema = new mongoose.Schema({
   username: String,
-  password: String // In production, hash passwords!
+  password: String // For demo; hash in production
 });
 
 const chatSchema = new mongoose.Schema({
@@ -37,24 +50,45 @@ const chatSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 const Chat = mongoose.model('Chat', chatSchema);
 
-// Emergency trigger helper
+// Emergency keyword checker
 const isEmergency = (text) => {
   const triggers = ['suicide', 'end my life', 'kill myself', 'can’t go on', 'give up', 'hurt myself'];
   return triggers.some(trigger => text.toLowerCase().includes(trigger));
 };
 
-// Auth: Basic login
-app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-  const user = await User.findOne({ username, password }); // No password hashing for demo
-  if (!user) return res.status(401).json({ error: 'Invalid credentials' });
-  res.json({ userId: user._id });
+// Serve login page by default
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/login.html'));
 });
 
-// Chat route
+// Login route
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  const user = await User.findOne({ username, password }); // No hashing (demo only)
+  if (!user) return res.status(401).json({ success: false, message: 'Invalid credentials' });
+
+  req.session.userId = user._id;
+  res.json({ success: true, userId: user._id });
+});
+
+// Serve chat page (protected route)
+app.get('/chat', (req, res) => {
+  if (!req.session.userId) return res.redirect('/');
+  res.sendFile(path.join(__dirname, 'public/chat.html'));
+});
+
+// Logout
+app.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/');
+});
+
+// Chat API
 app.post('/chat', async (req, res) => {
-  const { message, userId } = req.body;
-  if (!message || !userId) return res.status(400).json({ error: 'Message and userId required' });
+  const { message } = req.body;
+  const userId = req.session.userId;
+
+  if (!userId || !message) return res.status(400).json({ error: 'Message and login required' });
 
   try {
     const geminiPayload = {
@@ -95,11 +129,8 @@ Response: <response>
     }
 
     const emergency = isEmergency(message);
-    if (emergency) {
-      console.log('[EMERGENCY] Possible self-harm or suicide ideation detected.');
-    }
+    if (emergency) console.log('[EMERGENCY] Self-harm/suicide ideation detected.');
 
-    // Save chat to DB
     await Chat.create({
       userId,
       userMessage: message,
@@ -108,11 +139,7 @@ Response: <response>
       emergency
     });
 
-    res.json({
-      sentiment,
-      response: sereneResponse,
-      emergency
-    });
+    res.json({ sentiment, response: sereneResponse, emergency });
 
   } catch (error) {
     console.error('Gemini API error:', error.message);
@@ -121,8 +148,11 @@ Response: <response>
 });
 
 // Get chat history
-app.get('/history/:userId', async (req, res) => {
-  const chats = await Chat.find({ userId: req.params.userId }).sort({ timestamp: 1 });
+app.get('/history', async (req, res) => {
+  const userId = req.session.userId;
+  if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+
+  const chats = await Chat.find({ userId }).sort({ timestamp: 1 });
   res.json(chats);
 });
 
@@ -131,6 +161,7 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', gemini: !!GEMINI_API_KEY });
 });
 
+// Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

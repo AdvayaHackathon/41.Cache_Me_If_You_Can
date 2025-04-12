@@ -1,59 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login to Serene</title>
   <link rel="stylesheet" href="loginstyle.css" />
+  <script defer src="script.js"></script>
 </head>
 <body>
-  <div class="header" id="header">
+  <header class="header">
     <h1>Serene</h1>
-    <button id="theme-toggle" onclick="toggleTheme()">🌙</button>
-  </div>
-  
-  <div class="login-container">
-    <div id="login-box">
-      <h2>Login to Serene</h2>
-      <input type="text" id="username" placeholder="Username" />
-      <input type="password" id="password" placeholder="Password" />
-      <button onclick="login()">Login</button>
-    </div>
-  </div>
+    <button id="theme-toggle">🌙</button>
+  </header>
 
-  <script>
-    async function login() {
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value.trim();
-
-      const res = await fetch('/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
-
-      const data = await res.json();
-      if (data.userId) {
-        localStorage.setItem('userId', data.userId);
-        window.location.href = '/chat.html';
-      } else {
-        alert("Login failed");
-      }
-    }
-
-    // Toggle between light and dark mode
-    function toggleTheme() {
-      document.body.classList.toggle("dark-mode");
-      const themeToggle = document.getElementById("theme-toggle");
-      themeToggle.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
-      
-      const header = document.getElementById("header");
-      if (document.body.classList.contains("dark-mode")) {
-        header.style.backgroundColor = "#333"; // Dark mode background
-      } else {
-        header.style.backgroundColor = "#fff"; // Light mode background
-      }
-    }
-  </script>
+  <main class="login-container">
+    <section id="login-box">
+      <h2>Welcome Back</h2>
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button id="login-btn">Login</button>
+      <p id="error-msg" class="error-msg"></p>
+    </section>
+  </main>
 </body>
 </html>
